@@ -92,67 +92,6 @@ dce next-door-core-api sh
 $ make docker/exec c=next-door-core-api m=sh
 ```
 
-## Database
-
-### Dump data from RDS dev
-
-We are using PostgreSQL 12.x on cloud and local environment. To dump the data from development environment RDS to your local, please try to run the following steps:
-
-1. Access to PostgreSQL docker container
-   
-    ```sh
-    $ docker-compose exec next-door-postgres bash
-    ```
-
-    Or use zsh short command:
-
-    ```sh
-    $ dce next-door-postgres bash
-    ```
-
-2. Run pg_dump to dump data
-
-    ```sh
-    $ pg_dump --file "/home/snd_20210610.sql" --host "snd-pg-dev2.cbcdhoiotoy8.ap-southeast-1.rds.amazonaws.com" --port "5432" --username "snd" --verbose --format=t --blobs --encoding "UTF8" "snd"
-    $ exit
-    ```
-
-3. Copy file from container to your host
-   
-   ```sh
-   $ docker cp $(docker container list | grep next-door-postgres | awk '{print $1}'):/home/snd_20210610.sql ./snd_20210610.sql
-   ```
-
-### Import dump data to local
-
-```sh
-$ pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "snd" --verbose "/home/snd_20210610.sql"
-$ exit
-```
-
-## pgAdmin
-
->Access to `http://localhost:5050` then enter the PostgreSQL username/password to access to PostgreSQL UI Tool.
-
-## Production
-
-```sh
-# Start server with production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 
 ## Troubleshooting
 
